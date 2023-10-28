@@ -18,6 +18,7 @@ app = FastAPI()
 #dataframes que se utilizan en las funciones de la API
 tabla_final = pd.read_parquet("data/funcion_1.parquet")
 tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
+max_reviews3= pd.read_parquet("data/funcion_3.parquet")
 
 
 #Primera función
@@ -35,3 +36,15 @@ async def UserForGenre(genero):
     historial2 = historial[['Año', 'Horas jugadas']].copy() #me quedo con las columnas necesarias
     historial3=historial2.to_dict(orient="records")
     return {"Usuario":usuario ,"con más horas jugadas para": genero, "Historial acumulado": historial3 }
+
+@app.get("/UsersRecommend/{año}", name = "USERSRECOMMEND")
+async def UsersRecommend(año):
+    tabla1=max_reviews3[max_reviews3['year'] == año]
+    tabla2=tabla1[['Acumulado', 'app_name','year']].copy() #me quedo con las columnas necesarias
+    tabla2.reset_index()
+    
+    dato = tabla2[tabla2["year"]== año]["app_name"].iloc[0]
+    dato1 = tabla2[tabla2["year"]== año]["app_name"].iloc[1]
+    dato2 = tabla2[tabla2["year"]== año]["app_name"].iloc[2]
+    
+    return {"Los juegos más recomendados para el año": año, "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
