@@ -17,6 +17,7 @@ app = FastAPI()
 
 #dataframes que se utilizan en las funciones de la API
 tabla_final = pd.read_parquet("data/funcion_1.parquet")
+tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 
 
 #Primera función
@@ -27,4 +28,10 @@ async def PlayTimeGenre(genero):
     return {"El género": genero, "en el año de lanzamiento": int(anio),"tiene más horas jugadas": int(horas_jugadas)}
 
 
-
+@app.get("/UserForGenre/{genero}", name = "USERFORGENRE")
+def UserForGenre(genero):
+    usuario= tabla_user2[tabla_user2["genres"]== genero]["user_id"].iloc[0] #obtengo usuario
+    historial=tabla_user2[(tabla_user2['user_id'] == usuario) & (tabla_user2['genres']==genero)] #filtro por el genero y usuario
+    historial2 = historial[['Año', 'Horas jugadas']].copy() #me quedo con las columnas necesarias
+    historial3=historial2.to_dict(orient="records")
+    return {"Usuario":usuario ,"con más horas jugadas para": genero, "Historial acumulado": historial3 }
