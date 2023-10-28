@@ -9,8 +9,7 @@ FUNCIONES PARA ALIMENTAR LA API
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 import pandas as pd
-import scipy as sp
-from sklearn.metrics.pairwise import cosine_similarity
+
 
 #instanciar la aplicación
 
