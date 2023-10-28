@@ -29,7 +29,7 @@ async def PlayTimeGenre(genero):
 
 
 @app.get("/UserForGenre/{genero}", name = "USERFORGENRE")
-def UserForGenre(genero):
+async def UserForGenre(genero):
     usuario= tabla_user2[tabla_user2["genres"]== genero]["user_id"].iloc[0] #obtengo usuario
     historial=tabla_user2[(tabla_user2['user_id'] == usuario) & (tabla_user2['genres']==genero)] #filtro por el genero y usuario
     historial2 = historial[['Año', 'Horas jugadas']].copy() #me quedo con las columnas necesarias
