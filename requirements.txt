@@ -1,4 +1,5 @@
 fastapi
+scipy
 numpy
 pandas
 uvicorn
