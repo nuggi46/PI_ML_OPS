@@ -39,6 +39,7 @@ async def UserForGenre(genero):
 
 @app.get("/UsersRecommend/{anio}", name = "USERSRECOMMEND")
 async def UsersRecommend(anio):
+    anio=str(anio)
     tabla1=max_reviews3[max_reviews3['year'] == anio]
     tabla1.reset_index()
     
@@ -46,4 +47,4 @@ async def UsersRecommend(anio):
     dato1 = tabla1[tabla1["year"]== anio]["app_name"].iloc[1]
     dato2 = tabla1[tabla1["year"]== anio]["app_name"].iloc[2]
     
-    return {"Los juegos más recomendados para el año": str(anio), "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
+    return {"Los juegos más recomendados para el año": anio, "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
