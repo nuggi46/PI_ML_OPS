@@ -37,14 +37,13 @@ async def UserForGenre(genero):
     historial3=historial2.to_dict(orient="records")
     return {"Usuario":usuario ,"con más horas jugadas para": genero, "Historial acumulado": historial3 }
 
-@app.get("/UsersRecommend/{año}", name = "USERSRECOMMEND")
-async def UsersRecommend(año):
-    tabla1=max_reviews3[max_reviews3['year'] == str(año)]
+@app.get("/UsersRecommend/{anio}", name = "USERSRECOMMEND")
+async def UsersRecommend(anio):
+    tabla1=max_reviews3[max_reviews3['year'] == anio]
     tabla1.reset_index()
     
-    dato = tabla1[tabla1["year"]== str(año)]["app_name"].iloc[0]
-    dato1 = tabla1[tabla1["year"]== str(año)]["app_name"].iloc[1]
-    dato2 = tabla1[tabla1["year"]== str(año)]["app_name"].iloc[2]
+    dato = tabla1[tabla1["year"]== anio]["app_name"].iloc[0]
+    dato1 = tabla1[tabla1["year"]== anio]["app_name"].iloc[1]
+    dato2 = tabla1[tabla1["year"]== anio]["app_name"].iloc[2]
     
-    
-    return {"Los juegos más recomendados para el año": str(año), "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
+    return {"Los juegos más recomendados para el año": str(anio), "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
