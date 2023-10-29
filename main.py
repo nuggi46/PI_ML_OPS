@@ -48,13 +48,13 @@ async def UsersRecommend(anio:int):
     
     return {"Los juegos más recomendados para el año": anio, "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
 
-@app.get("/UsersNotRecommend/{año}", name = "USERSNOTRECOMMEND")
+@app.get("/UsersNotRecommend/{anio}", name = "USERSNOTRECOMMEND")
 async def UsersNotRecommend(anio:int):
-    tabla11=min_reviews2[min_reviews2['year']==anio]
+    tabla11=min_reviews2[min_reviews2['year']== anio]
     tabla11.reset_index()
     
-    dato0 = tabla11[tabla11["year"]==anio]["app_name"].iloc[0]
+    dato0 = tabla11[tabla11["year"]== anio]["app_name"].iloc[0]
     dato11 = tabla11[tabla11["year"]== anio]["app_name"].iloc[1]
-    dato22 = tabla11[tabla11["year"]==anio]["app_name"].iloc[2]
+    dato22 = tabla11[tabla11["year"]== anio]["app_name"].iloc[2]
     
     return {"Los juegos menos recomendados para el año": año, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
