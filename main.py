@@ -51,11 +51,10 @@ async def UsersRecommend(anio:int):
 @app.get("/UsersNotRecommend/{año}", name = "USERSNOTRECOMMEND")
 async def UsersNotRecommend(año:int):
     tabla11=min_reviews2[min_reviews2['year']==año]
-    tabla22=tabla11[['app_name','year']].copy() #me quedo con las columnas necesarias
-    tabla22.reset_index()
+    tabla11.reset_index()
     
-    dato0 = tabla22[tabla22["year"]==año]["app_name"].iloc[0]
-    dato11 = tabla22[tabla22["year"]== año]["app_name"].iloc[1]
-    dato22 = tabla22[tabla22["year"]==año]["app_name"].iloc[2]
+    dato0 = tabla11[tabla11["year"]==año]["app_name"].iloc[0]
+    dato11 = tabla11[tabla11["year"]== año]["app_name"].iloc[1]
+    dato22 = tabla11[tabla11["year"]==año]["app_name"].iloc[2]
     
     return {"Los juegos menos recomendados para el año": año, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
