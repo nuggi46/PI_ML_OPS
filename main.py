@@ -38,9 +38,8 @@ async def UserForGenre(genero):
     return {"Usuario":usuario ,"con más horas jugadas para": genero, "Historial acumulado": historial3 }
 
 @app.get("/UsersRecommend/{anio}", name = "USERSRECOMMEND")
-async def UsersRecommend(anio):
-    anio=str(anio)
-    tabla1=max_reviews3[max_reviews3['year'] == anio]
+async def UsersRecommend(anio:int):
+    tabla1=max_reviews3[max_reviews3["year"] == anio]
     tabla1.reset_index()
     
     dato = tabla1[tabla1["year"]== anio]["app_name"].iloc[0]
