@@ -38,13 +38,12 @@ async def UserForGenre(genero):
     return {"Usuario":usuario ,"con más horas jugadas para": genero, "Historial acumulado": historial3 }
 
 @app.get("/UsersRecommend/{año}", name = "USERSRECOMMEND")
-async def UsersRecommend(año:int):
-    tabla1=max_reviews3[max_reviews3['year'] == str(año)]
-    tabla2=tabla1[['Acumulado', 'app_name','year']].copy() #me quedo con las columnas necesarias
-    tabla2.reset_index()
+async def UsersRecommend(año):
+    tabla1=max_reviews3[max_reviews3['year'] == int(año)]
+    tabla1.reset_index()
     
-    dato = tabla2[tabla2["year"]== str(año)]["app_name"].iloc[0]
-    dato1 = tabla2[tabla2["year"]== str(año)]["app_name"].iloc[1]
-    dato2 = tabla2[tabla2["year"]== str(año)]["app_name"].iloc[2]
+    dato = tabla1[tabla1["year"]== int(año)]["app_name"].iloc[0]
+    dato1 = tabla1[tabla1["year"]== int(año)]["app_name"].iloc[1]
+    dato2 = tabla1[tabla1["year"]== int(año)]["app_name"].iloc[2]
     
-    return {"Los juegos más recomendados para el año": año, "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
+    return {"Los juegos más recomendados para el año": int(año), "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
