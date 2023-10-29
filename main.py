@@ -19,7 +19,7 @@ app = FastAPI()
 tabla_final = pd.read_parquet("data/funcion_1.parquet")
 tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 max_reviews3= pd.read_parquet("data/funcion_3.parquet")
-
+min_reviews2= pd.read_parquet("data/funcion_4.parquet")
 
 #Primera función
 @app.get("/PlayTimeGenre/{genero}", name = "PLAYTIMEFORGENRE")
@@ -47,3 +47,15 @@ async def UsersRecommend(anio:int):
     dato2 = tabla1[tabla1["year"]== anio]["app_name"].iloc[2]
     
     return {"Los juegos más recomendados para el año": anio, "Puesto 1": dato,"Puesto 2": dato1,"Puesto 3": dato2}
+
+@app.get("/UsersNotRecommend/{año}", name = "USERSNOTRECOMMEND")
+async def UsersNotRecommend(año:int):
+    tabla11=min_reviews2[min_reviews2['year']==año]
+    tabla22=tabla11[['app_name','year']].copy() #me quedo con las columnas necesarias
+    tabla22.reset_index()
+    
+    dato0 = tabla22[tabla22["year"]==año]["app_name"].iloc[0]
+    dato11 = tabla22[tabla22["year"]== año]["app_name"].iloc[1]
+    dato22 = tabla22[tabla22["year"]==año]["app_name"].iloc[2]
+    
+    return {"Los juegos menos recomendados para el año": año, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
