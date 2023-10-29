@@ -62,7 +62,7 @@ async def UsersNotRecommend(anio:int):
 
 
 
-@app.get("/UsersNotRecommend/{anio}", name = "USERSNOTRECOMMEND")
+@app.get("/sentiment_analysis/{anio}", name = "SENTIMENTANALYSIS")
 async def sentiment_analysis(anio:int):
     
     reviews_por_anio=sentimiento_analysis[sentimiento_analysis["Año de lanzamiento"]== anio]
