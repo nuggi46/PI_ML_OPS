@@ -57,4 +57,4 @@ async def UsersNotRecommend(anio:int):
     dato11 = tabla11[tabla11["year"]== anio]["app_name"].iloc[1]
     dato22 = tabla11[tabla11["year"]== anio]["app_name"].iloc[2]
     
-    return {"Los juegos menos recomendados para el año": año, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
+    return {"Los juegos menos recomendados para el año": anio, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
