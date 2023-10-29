@@ -20,6 +20,7 @@ tabla_final = pd.read_parquet("data/funcion_1.parquet")
 tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 max_reviews3= pd.read_parquet("data/funcion_3.parquet")
 min_reviews2= pd.read_parquet("data/funcion_4.parquet")
+sentimiento_analysis= pd.read_parquet("data/funcion_5.parquet")
 
 #Primera función
 @app.get("/PlayTimeGenre/{genero}", name = "PLAYTIMEFORGENRE")
@@ -58,3 +59,28 @@ async def UsersNotRecommend(anio:int):
     dato22 = tabla11[tabla11["year"]== anio]["app_name"].iloc[2]
     
     return {"Los juegos menos recomendados para el año": anio, "Puesto 1": dato0,"Puesto 2": dato11,"Puesto 3": dato22}
+
+
+
+@app.get("/UsersNotRecommend/{anio}", name = "USERSNOTRECOMMEND")
+async def sentiment_analysis(anio:int):
+    
+    reviews_por_anio=sentimiento_analysis[sentimiento_analysis["Año de lanzamiento"]== anio]
+    
+ 
+    Negativos = 0
+    Neutral = 0
+    Positivos = 0
+    
+
+    for i in reviews_por_anio["sentiment_analisis"]:
+        if i == 0:
+            Negativos += 1
+        elif i == 1:
+            Neutral += 1 
+        elif i == 2:
+            Positivos += 1
+
+    count_sentiment ={"Negative": Negativos , "Neutral" : Neutral, "Positive": Positivos}
+    
+    return count_sentiment
