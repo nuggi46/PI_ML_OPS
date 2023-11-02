@@ -4,3 +4,4 @@ pandas
 uvicorn
 pyarrow
 fastparquet
+scikit-learn
