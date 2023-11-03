@@ -109,5 +109,4 @@ async def recomendacion_juego(item_id:int):
     # Obtener los nombres de los juegos 5 recomendados
     juegos_recomendados = modelo_item_3.iloc[indices_juegos_similares]['app_name']
     
-    return {
-        "Juegos_recomendados" :juegos_recomendados}
+    return {"Juegos_recomendados" :juegos_recomendados}
