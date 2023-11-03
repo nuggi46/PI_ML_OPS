@@ -88,7 +88,7 @@ async def sentiment_analysis(anio:int):
 
 
 @app.get("/recomendacion_juego/{item_id}", name = "RECOMENDACIONJUEGO")
-async def recomendacion_juego(item_id):
+async def recomendacion_juego(item_id:int):
     
 
     # Filtrar el juego e igualarlo a  su ID
