@@ -22,7 +22,6 @@ tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 max_reviews3= pd.read_parquet("data/funcion_3.parquet")
 min_reviews2= pd.read_parquet("data/funcion_4.parquet")
 sentimiento_analysis= pd.read_parquet("data/funcion_5.parquet")
-modelo_item_3=pd.read_parquet("data/funcion_6.parquet")
 modelo_render= pd.read_parquet("data/modelo_render.parquet")
 
 #Primera función
@@ -126,21 +125,21 @@ async def  recomendacion_juego(item_id:int):
 async def recomendacion_juego2(item_id:int):
     
     # Filtrar el juego e igualarlo a  su ID
-    juego_seleccionado = modelo_item_3[modelo_item_3['item_id'] == item_id]
+    juego_seleccionado = modelo_render[modelo_render['item_id'] == item_id]
     # devolver error en caso de vacio
     if juego_seleccionado.empty:
         return "El juego con el ID especificado no existe en la base de datos."
     
     # Calcular la matriz de similitud coseno
-    similitudes = cosine_similarity(modelo_item_3.iloc[:,3:])
+    similitudes = cosine_similarity(modelo_render.iloc[:,3:])
     
     # Calcula la similitud del juego que se ingresa con otros juegos del dataframe
-    similarity_scores = similitudes[modelo_item_3[modelo_item_3['item_id'] == item_id].index[0]]
+    similarity_scores = similitudes[modelo_render[modelo_render['item_id'] == item_id].index[0]]
     
     # Calcula los índices de los juegos más similares (excluyendo el juego de entrada)
     indices_juegos_similares = similarity_scores.argsort()[::-1][1:6]
     
     # Obtener los nombres de los juegos 5 recomendados
-    juegos_recomendados = modelo_item_3.iloc[indices_juegos_similares]['app_name']
+    juegos_recomendados = modelo_render.iloc[indices_juegos_similares]['app_name']
     
     return {"Juegos_recomendados" :juegos_recomendados}
