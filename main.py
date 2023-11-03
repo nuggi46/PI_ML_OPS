@@ -22,7 +22,7 @@ tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 max_reviews3= pd.read_parquet("data/funcion_3.parquet")
 min_reviews2= pd.read_parquet("data/funcion_4.parquet")
 sentimiento_analysis= pd.read_parquet("data/funcion_5.parquet")
-modelo_item_3=pd.read_parquet("data/funcion_5.parquet")
+modelo_item_3=pd.read_parquet("data/funcion_6.parquet")
 modelo_render= pd.read_parquet("data/modelo_render.parquet")
 
 #Primera función
