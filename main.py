@@ -90,20 +90,32 @@ async def sentiment_analysis(anio:int):
 @app.get("/recomendacion_juego/{item_id}", name = "RECOMENDACIONJUEGO")
 async def  recomendacion_juego(item_id:int):
     
-    # Encuentra el índice del juego ingresado por ID
-    juego_indice = modelo_render.index[modelo_render['item_id'] == item_id].tolist()[0]
+    game = modelo_render[modelo_render['item_id'] == item_id]
     
-    # Extrae las características del juego ingresado
-    juego_caracteristicas = modelo_render.iloc[juego_indice, 3:].values.reshape(1, -1)
+    if game.empty:
+        return("El juego '{item_id}' no posee registros.")
     
-    # Calcula la similitud coseno entre el juego ingresado y todos los demás juegos
-    similitudes_render = cosine_similarity(modelo_render.iloc[:, 3:], juego_caracteristicas)
-    
-    # Obtiene los índices de los juegos más similares (excluyendo el juego de entrada)
-    indices_juegos_similares = similitudes_render.argsort(axis=0)[::-1][1:6]
-    indices_juegos_similares = indices_juegos_similares.flatten()[1:]
-    
-    # Obtiene los juegos más similares en función de los índices
-    juegos_similares = modelo_render.iloc[indices_juegos_similares]['app_name']
-    
-    return juegos_similares
+    # Obtiene el índice del juego dado
+    idx = game.index[0]
+
+    # Toma una muestra aleatoria del DataFrame df_games
+    sample_size = 2000  # Define el tamaño de la muestra (ajusta según sea necesario)
+    df_sample = modelo_render.sample(n=sample_size, random_state=42)  # Ajusta la semilla aleatoria según sea necesario
+
+    # Calcula la similitud de contenido solo para el juego dado y la muestra
+    sim_scores = cosine_similarity([modelo_render.iloc[idx, 3:]], df_sample.iloc[:, 3:])
+
+    # Obtiene las puntuaciones de similitud del juego dado con otros juegos
+    sim_scores = sim_scores[0]
+
+    # Ordena los juegos por similitud en orden descendente
+    similar_games = [(i, sim_scores[i]) for i in range(len(sim_scores)) if i != idx]
+    similar_games = sorted(similar_games, key=lambda x: x[1], reverse=True)
+
+    # Obtiene los 5 juegos más similares
+    similar_game_indices = [i[0] for i in similar_games[:5]]
+
+    # Lista de juegos similares (solo nombres)
+    similar_game_names = df_sample['app_name'].iloc[similar_game_indices].tolist()
+
+    return {"similar_games": similar_game_names}
