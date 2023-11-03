@@ -126,7 +126,7 @@ Para el deploy de la API se seleccionó la plataforma Render que es una nube uni
 
 **`Video`**:
 
-Demostración y funcionamiento de la API se encuentra en ele siguiente [Video]
+Demostración y funcionamiento de la API se encuentra en el siguiente [Video](https://clipchamp.com/watch/lhALUe1iLRp)
 
 <br/>
 
