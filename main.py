@@ -122,8 +122,8 @@ async def  recomendacion_juego(item_id:int):
 
     return {"similar_games": similar_game_names}
 
-
-def recomendacion_juego2(item_id:int):
+@app.get("/recomendacion_juego2/{item_id}", name = "RECOMENDACIONJUEGO")
+async def recomendacion_juego2(item_id:int):
     
     # Filtrar el juego e igualarlo a  su ID
     juego_seleccionado = modelo_item_3[modelo_item_3['item_id'] == item_id]
