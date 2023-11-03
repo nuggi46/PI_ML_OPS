@@ -21,7 +21,7 @@ tabla_user2 = pd.read_parquet("data/funcion_2.parquet")
 max_reviews3= pd.read_parquet("data/funcion_3.parquet")
 min_reviews2= pd.read_parquet("data/funcion_4.parquet")
 sentimiento_analysis= pd.read_parquet("data/funcion_5.parquet")
-modelo_item_3= pd.read_parquet("data/funcion_6.parquet")
+modelo_render= pd.read_parquet("data/modelo_render.parquet")
 
 #Primera función
 @app.get("/PlayTimeGenre/{genero}", name = "PLAYTIMEFORGENRE")
@@ -88,25 +88,22 @@ async def sentiment_analysis(anio:int):
 
 
 @app.get("/recomendacion_juego/{item_id}", name = "RECOMENDACIONJUEGO")
-async def recomendacion_juego(item_id:int):
+async def  recomendacion_juego(item_id:int):
     
-
-    # Filtrar el juego e igualarlo a  su ID
-    juego_seleccionado = modelo_item_3[modelo_item_3['item_id'] == item_id]
-    # devolver error en caso de vacio
-    if juego_seleccionado.empty:
-        return "El juego con el ID especificado no existe en la base de datos."
+    # Encuentra el índice del juego ingresado por ID
+    juego_indice = modelo_render.index[modelo_render['item_id'] == item_id].tolist()[0]
     
-    # Calcular la matriz de similitud coseno
-    similitudes = cosine_similarity(modelo_item_3.iloc[:,3:])
+    # Extrae las características del juego ingresado
+    juego_caracteristicas = modelo_render.iloc[juego_indice, 3:].values.reshape(1, -1)
     
-    # Calcula la similitud del juego que se ingresa con otros juegos del dataframe
-    similarity_scores = similitudes[modelo_item_3[modelo_item_3['item_id'] == item_id].index[0]]
+    # Calcula la similitud coseno entre el juego ingresado y todos los demás juegos
+    similitudes_render = cosine_similarity(modelo_render.iloc[:, 3:], juego_caracteristicas)
     
-    # Calcula los índices de los juegos más similares (excluyendo el juego de entrada)
-    indices_juegos_similares = similarity_scores.argsort()[::-1][1:6]
+    # Obtiene los índices de los juegos más similares (excluyendo el juego de entrada)
+    indices_juegos_similares = similitudes_render.argsort(axis=0)[::-1][1:6]
+    indices_juegos_similares = indices_juegos_similares.flatten()[1:]
     
-    # Obtener los nombres de los juegos 5 recomendados
-    juegos_recomendados = modelo_item_3.iloc[indices_juegos_similares]['app_name']
+    # Obtiene los juegos más similares en función de los índices
+    juegos_similares = modelo_render.iloc[indices_juegos_similares]['app_name']
     
-    return {"Juegos_recomendados":juegos_recomendados}
+    return juegos_similares
