@@ -88,7 +88,7 @@ async def sentiment_analysis(anio:int):
 
 
 @app.get("/recomendacion_juego/{item_id}", name = "RECOMENDACIONJUEGO")
-async def recomendacion_juego(item_id):
+async def recomendacion_juego(item_id:int):
     
 
     # Filtrar el juego e igualarlo a  su ID
@@ -109,4 +109,5 @@ async def recomendacion_juego(item_id):
     # Obtener los nombres de los juegos 5 recomendados
     juegos_recomendados = modelo_item_3.iloc[indices_juegos_similares]['app_name']
     
-    return juegos_recomendados
+    return {
+        "Juegos_recomendados" :juegos_recomendados}

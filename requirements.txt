@@ -5,3 +5,4 @@ uvicorn
 pyarrow
 fastparquet
 scikit-learn
+scipy
